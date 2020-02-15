@@ -5,12 +5,12 @@ const app = express();
 const csv = require('csv-parser')
 const fs = require('fs')
 const results = [];
-const FilteredResults = [];
+const filteredResults = [];
 const csvData = './NOMotorNOBLE.csv';
 
 app.get('/', async (req, res) => {
     await filterData();
-    await res.json(FilteredResults);
+    await res.json(filteredResults);
 });
 
 app.listen(8000, () => {
@@ -36,11 +36,11 @@ await fs.createReadStream(csvData)
         console.log('isNewSequence?',isNewSequence, ' row:',row['number of points'])
           if (row['number of points'] > 1 && isNewSequence){
             isNewSequence = false;
-            FilteredResults.push(row);
+            filteredResults.push(row);
             console.log('pushed!')
           } else if (row['number of points'] <= 1 && !isNewSequence){
               isNewSequence = true;
           }
       }
-      console.log('FilteredResults:',FilteredResults);
+      console.log('filteredResults:',filteredResults);
   }
